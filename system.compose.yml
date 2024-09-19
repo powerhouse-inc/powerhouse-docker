@@ -1,0 +1,8 @@
+services:
+    powerhouse-proxy:
+        restart: unless-stopped
+        build:
+            context: ./powerhouse-proxy
+            dockerfile: Dockerfile
+        ports:
+            - "3000:3000"

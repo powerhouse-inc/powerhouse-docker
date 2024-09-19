@@ -1,0 +1,8 @@
+services:
+    connect:
+        restart: unless-stopped
+        image: ghcr.io/powerhouse-inc/connect:${BRANCH}
+        environment:
+            NEXT_PUBLIC_SWITCHBOARD_GRAPHQL_HOST: "http://switchboard-api:3000"
+        expose:
+            - 3000

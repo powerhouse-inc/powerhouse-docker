@@ -1,0 +1,31 @@
+services:
+    switchboard-api:
+        restart: unless-stopped
+        expose:
+            - 3000
+        image: ghcr.io/powerhouse-inc/switchboard-api:${BRANCH}
+        environment:
+            DATABASE_URL: "postgres://postgres:postgres@database:5432/postgres?sslmode=disable&connect_timeout=30"
+            API_ORIGIN: http://localhost:3000
+            AUTH_SIGNUP_ENABLED: "1"
+            JWT_SECRET: replace_in_production_with_actual_secret
+            JWT_EXPIRATION_PERIOD_SECONDS: 3600
+            API_GQL_ENDPOINT: "http://localhost:3000"
+            REDIS_TLS_URL: "redis://redis:6379"
+            PORT: 3000
+    switchboard-frontend:
+        restart: unless-stopped
+        image: ghcr.io/powerhouse-inc/switchboard-frontend:develop
+        environment:
+            NEXT_PUBLIC_SWITCHBOARD_GRAPHQL_HOST: "http://localhost:3000"
+        expose:
+            - 3000
+    switchboard-proxy:
+        restart: unless-stopped
+        image: ghcr.io/powerhouse-inc/switchboard-nginx:develop
+        expose:
+            - 3000
+        environment:
+            PORT: 3000
+            FRONTEND: "http://switchboard-frontend:3000"
+            BACKEND: "http://switchboard-api:3000"
