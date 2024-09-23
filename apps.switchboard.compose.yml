@@ -3,7 +3,7 @@ services:
         restart: unless-stopped
         expose:
             - 3000
-        image: ghcr.io/powerhouse-inc/switchboard-api:${BRANCH}
+        image: ghcr.io/powerhouse-inc/switchboard-api:develop
         environment:
             DATABASE_URL: "postgres://postgres:postgres@database:5432/postgres?sslmode=disable&connect_timeout=30"
             API_ORIGIN: http://localhost:3000
@@ -20,6 +20,8 @@ services:
             NEXT_PUBLIC_SWITCHBOARD_GRAPHQL_HOST: "http://localhost:3000"
         expose:
             - 3000
+        depends_on:
+            - switchboard-api
     switchboard-proxy:
         restart: unless-stopped
         image: ghcr.io/powerhouse-inc/switchboard-nginx:develop
@@ -29,3 +31,6 @@ services:
             PORT: 3000
             FRONTEND: "http://switchboard-frontend:3000"
             BACKEND: "http://switchboard-api:3000"
+        depends_on:
+            - switchboard-frontend
+            - switchboard-api

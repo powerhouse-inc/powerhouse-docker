@@ -2,7 +2,7 @@
 services:
     renown:
         restart: unless-stopped
-        image: ghcr.io/powerhouse-inc/renown:${BRANCH}
+        image: ghcr.io/powerhouse-inc/renown:develop
         environment:
             NEXT_PUBLIC_VITE_WALLET_CONNECT_PROJECT_ID: "60fc27f7788c66bb46658faf2e472bc0"
             ORIGIN_URL: "*"

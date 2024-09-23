@@ -1,8 +1,10 @@
 services:
     connect:
         restart: unless-stopped
-        image: ghcr.io/powerhouse-inc/connect:${BRANCH}
+        image: ghcr.io/powerhouse-inc/connect:develop
         environment:
             NEXT_PUBLIC_SWITCHBOARD_GRAPHQL_HOST: "http://switchboard-api:3000"
+            PORT: 3000
+            BASE_PATH: "/"
         expose:
             - 3000
