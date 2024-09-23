@@ -15,5 +15,5 @@ services:
             SUPABASE_URL: ""
             SUPABASE_ANON_KEY: ""
             NEXT_PUBLIC_VITE_INFURA_PROJECT_ID: "883e5a16c1f94e3b822442ef5d726a76"
-        expose:
-            - 3000
+        ports:
+            - ${RENOWN_PORT}:3000

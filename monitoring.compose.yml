@@ -12,8 +12,8 @@ services:
             - /var/lib/docker/containers:/var/lib/docker/containers:ro
             - /var/run/docker.sock:/var/run/docker.sock
         command: -config.file=/etc/promtail/docker-config.yaml
-        ports:
-            - 9080:9080
+        expose:
+            - 9080
 
     cadvisor:
         image: gcr.io/cadvisor/cadvisor
@@ -26,8 +26,8 @@ services:
 
     prometheus:
         image: prom/prometheus
-        ports:
-            - "9090:9090"
+        expose:
+            - 9090
         volumes:
             - ./prometheus:/app.cfg
         command: >-
@@ -41,7 +41,7 @@ services:
             - loki
         image: grafana/grafana
         ports:
-            - "3000:3000"
+            - ${GRAFANA_PORT}:3000
         environment:
             GF_SECURITY_ADMIN_USER: admin
             GF_SECURITY_ADMIN_PASSWORD: test
