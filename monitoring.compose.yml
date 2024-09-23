@@ -1,14 +1,19 @@
 services:
     loki:
-        image: grafana/loki:master
+        image: grafana/loki
         command: -config.file=/etc/loki/local-config.yaml
 
     promtail:
         depends_on:
             - loki
-        image: grafana/promtail:master
+        image: grafana/promtail
         volumes:
-            - /var/log:/var/log
+            - ./promtail/promtail.yaml:/etc/promtail/docker-config.yaml
+            - /var/lib/docker/containers:/var/lib/docker/containers:ro
+            - /var/run/docker.sock:/var/run/docker.sock
+        command: -config.file=/etc/promtail/docker-config.yaml
+        ports:
+            - 9080:9080
 
     cadvisor:
         image: gcr.io/cadvisor/cadvisor
