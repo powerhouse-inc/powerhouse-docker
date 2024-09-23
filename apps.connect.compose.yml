@@ -5,5 +5,6 @@ services:
         environment:
             PORT: 3000
             BASE_PATH: "/"
+            PH_CONNECT_ROUTER_BASENAME: "/"
         ports:
             - ${CONNECT_PORT}:3000
