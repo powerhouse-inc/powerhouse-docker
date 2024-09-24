@@ -8,7 +8,7 @@ services:
             - loki
         image: grafana/promtail
         volumes:
-            - ./promtail/promtail.yaml:/etc/promtail/docker-config.yaml
+            - ../promtail/promtail.yaml:/etc/promtail/docker-config.yaml
             - /var/lib/docker/containers:/var/lib/docker/containers:ro
             - /var/run/docker.sock:/var/run/docker.sock
         command: -config.file=/etc/promtail/docker-config.yaml
@@ -29,7 +29,7 @@ services:
         expose:
             - 9090
         volumes:
-            - ./prometheus:/app.cfg
+            - ../prometheus:/app.cfg
         command: >-
             --config.file=/app.cfg/prometheus.yml
             --storage.tsdb.path=/prometheus
@@ -47,4 +47,4 @@ services:
             GF_SECURITY_ADMIN_PASSWORD: test
             GF_PATHS_PROVISIONING: "/app.cfg/provisioning"
         volumes:
-            - ./grafana:/app.cfg
+            - ../grafana:/app.cfg

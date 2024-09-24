@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
-        "exec": "./cli.sh"
+        "compose": "./cli.sh"
     },
     "author": "",
     "type": "module",
