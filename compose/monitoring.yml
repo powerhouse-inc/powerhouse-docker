@@ -1,0 +1,50 @@
+services:
+    loki:
+        image: grafana/loki
+        command: -config.file=/etc/loki/local-config.yaml
+
+    promtail:
+        depends_on:
+            - loki
+        image: grafana/promtail
+        volumes:
+            - ../promtail/promtail.yaml:/etc/promtail/docker-config.yaml
+            - /var/lib/docker/containers:/var/lib/docker/containers:ro
+            - /var/run/docker.sock:/var/run/docker.sock
+        command: -config.file=/etc/promtail/docker-config.yaml
+        expose:
+            - 9080
+
+    cadvisor:
+        image: gcr.io/cadvisor/cadvisor
+        volumes:
+            - /:/rootfs:ro
+            - /var/run:/var/run:ro
+            - /sys:/sys:ro
+            - /var/lib/docker/:/var/lib/docker:ro
+            - /dev/disk/:/dev/disk:ro
+
+    prometheus:
+        image: prom/prometheus
+        expose:
+            - 9090
+        volumes:
+            - ../prometheus:/app.cfg
+        command: >-
+            --config.file=/app.cfg/prometheus.yml
+            --storage.tsdb.path=/prometheus
+            --web.console.libraries=/usr/share/prometheus/console_libraries
+            --web.console.templates=/usr/share/prometheus/consoles
+
+    grafana:
+        depends_on:
+            - loki
+        image: grafana/grafana
+        ports:
+            - ${GRAFANA_PORT}:3000
+        environment:
+            GF_SECURITY_ADMIN_USER: admin
+            GF_SECURITY_ADMIN_PASSWORD: test
+            GF_PATHS_PROVISIONING: "/app.cfg/provisioning"
+        volumes:
+            - ../grafana:/app.cfg

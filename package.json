@@ -1,0 +1,12 @@
+{
+    "name": "@powerhouse-inc/docker",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "compose": "./cli.sh"
+    },
+    "author": "",
+    "type": "module",
+    "license": "ISC",
+    "description": ""
+}
